@@ -16,24 +16,6 @@ Backend: .NET MVC
 Database: SQL Server
 Tools: Visual Studio, SQL Server Management Studio
 
-Installation:
-To run the project locally, follow these steps:
-
-Clone the repository:
-bash
-Copy code
-git clone https://github.com/yourusername/AgroDeals.git
-Open the project in Visual Studio.
-Restore NuGet packages.
-Update the connection string in the Web.config file to match your SQL Server configuration.
-Build the project and run the application.
-Usage
-Register as a farmer or consumer.
-Farmers can list their products, while consumers can browse and purchase available items.
-Use the admin dashboard to manage platform activities.
-Contributing
-Contributions are welcome! If you have any suggestions or find any issues, feel free to submit a pull request or open an issue.
-
 License:
 This project is licensed under the MIT License - see the LICENSE file for details.
 
