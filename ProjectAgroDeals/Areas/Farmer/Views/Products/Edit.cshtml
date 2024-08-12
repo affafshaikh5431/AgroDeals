@@ -1,0 +1,127 @@
+﻿@model ProjectAgroDeals.Models.Products
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Farmer/Views/Shared/_FarmerMenus.cshtml";
+}
+
+<style>
+
+    .form-control {
+        background-color: white !important; /* Use !important to override any existing styles */
+        color: black !important;
+    }
+
+    .form-select {
+        background-color: white !important;
+        color: black !important;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+
+        var msg = '@TempData["Msg"]';
+
+        if (msg != null && msg.includes('Updated'))
+        {
+            Swal.fire({ title: "Product Updated Successfully!", text: "Your Product is added !",icon: "success",background:"white" });
+        }
+        else if (msg != null && msg.includes("exists"))
+        {
+            Swal.fire({ title: "Not Again!", text: "You have already added product with this name!", icon: "warning" });
+        }
+        else if (msg != null && msg.includes("Failed"))
+        {
+            Swal.fire({ title: "Product Updation Failed!", text: "Failed to update the Product", icon: "error" })
+        }
+
+
+        });
+</script>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black">Edit Product </h1>
+                <hr style="color:black;" />
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card card-warning bg-white">
+                <div class="card-header">
+                    <h3 class="card-title fw-bold display-3">Edit Product Details</h3>
+
+                    
+                </div>
+                <div class="card-body">
+
+                    @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(model => model.ProductID)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CatID, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            @Html.DropDownListFor(model => model.CatID, new SelectList(ViewBag.Cat, "CatID", "CatName"), new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.CatID, "", new { @class = "text-danger" })
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-6" })
+                            @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.ProductPicture)
+                            <label>Select Picture </label>
+                            <input type="file" id="file1" name="file1" class="form-control" accept="image/*" />
+                            @Html.ValidationMessageFor(model => model.ProductPicture, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            <img src="/@Model.ProductPicture" width="120px" />
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UnitID, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.DropDownListFor(model => model.UnitID, new SelectList(ViewBag.Unit, "UnitID", "UnitType"), new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.UnitID, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="Editbtn" class="btn btn-sm btn-warning text-white p-2 float-end">Edit Product</button>
+                        </div>
+                    }
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>

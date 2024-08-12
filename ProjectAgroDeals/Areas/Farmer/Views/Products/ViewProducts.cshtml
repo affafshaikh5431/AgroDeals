@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "ViewProducts";
+    Layout = "~/Areas/Farmer/Views/Shared/_FarmerMenus.cshtml";
+}
+
+<link href="~/Content/mycss/datatableSearchBox.css" rel="stylesheet" />
+
+  
+<script>
+    $(document).ready(function () {
+
+        var msg = '@TempData["Msg"]';
+
+        if (msg != null && msg.includes('Updated'))
+        {
+            Swal.fire({ title: "Product Updated Successfully!", text: "Your Product is updated !",icon: "success",background:"white" });
+        }
+        else if (msg != null && msg.includes("exists"))
+        {
+            Swal.fire({ title: "Not Again!", text: "You have already added product with this name!", icon: "warning" });
+        }
+        else if (msg != null && msg.includes("Failed"))
+        {
+            Swal.fire({ title: "Product Updation Failed!", text: "Failed to update the Product", icon: "error" })
+        }
+
+
+        });
+</script>
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black">View Product </h1>
+                <hr style="color:black;" />
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="card">
+            <div class="card-body">
+                <div id="GetProducts"></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<script src="~/scripts/jquery-3.6.1.min.js"></script>
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section farmerscript
+{
+
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            Get();
+        })
+        function Get() {
+            $("#GetProducts").load("@Url.Action("GetProductsList","Products")", {}, function()
+            {
+                $("#table1").dataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": false,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                });
+            });
+        }
+    </script>
+}

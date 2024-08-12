@@ -1,0 +1,36 @@
+﻿/* Style for the DataTable search box */
+.dataTables_filter input {
+    width: 250px; /* Set your desired width */
+    padding: 2px;
+    border: 2px solid #ccc; /* Set the border color */
+    border-radius: 5px; /* Optional: Adds rounded corners */
+    outline: none; /* Remove the default focus outline */
+}
+
+    /* Style for the DataTable search box on focus */
+    .dataTables_filter input:focus {
+        border-color: #007bff; /* Set the border color on focus */
+    }
+
+/* Style for DataTable "Show entries" dropdown */
+.dataTables_wrapper .dataTables_length {
+    margin-top: 10px;
+    text-align: left; /* Adjust the alignment if needed */
+}
+
+    .dataTables_wrapper .dataTables_length select {
+        width: 60px; /* Set your desired width */
+        padding: 3px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        background-color: #fff;
+    }
+
+        .dataTables_wrapper .dataTables_length select:hover {
+            border-color: #007bff; /* Set the border color on hover */
+        }
+
+    .dataTables_wrapper .dataTables_length label {
+        margin-right: 10px; /* Adjust the spacing between the label and the dropdown */
+    }

@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/User/Views/Shared/_UserNavBar.cshtml";
+}
+
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2 bg-white border border-2 rounded-2 elevation-1">
+
+                <div class="col-sm-3">
+                    <h1 class="mt-5 mb-3 ml-3 "><i class="fa-solid fa-bag-shopping"></i> Buy Products</h1>
+                </div>
+                <div class="col-sm-9 mt-2">
+                    <ol class="breadcrumb float-sm-right">
+                        <li> @Html.Partial("_CategoryFilter")</li>
+                        <li>@Html.Partial("_Price")</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!--div class="row container mx-auto bg-white mb-2 elevation-1">
+            <div class="col-md-5 mt-2 mt-2">
+               
+
+            </div>
+            <div class="col-md-7 float-right">
+               
+
+            </div>
+        </!--div>
+        <!-- /.content-header -->
+        <!--The below code will be of ShowProducts i.e Partial View-->
+
+      
+            <div id="ShowProducts">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+      
+
+
+
+    </div>
+</div>
+@section userscript
+{
+    <script>
+        $(document).ready(function ()
+            {
+                GetProducts();
+            });
+
+        function GetProducts() {
+            $("#ShowProducts").load("@Url.Action("ShowProducts","UserHome")", {}, function () {
+
+            });
+        }
+    </script>
+
+}

@@ -1,0 +1,113 @@
+﻿@model IEnumerable<ProjectAgroDeals.Models.Products>
+
+@{
+    ViewBag.Title = "ViewAllProducts";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminMenu.cshtml";
+}
+
+<link href="~/Content/mycss/datatableSearchBox.css" rel="stylesheet" />
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black">All Products </h1>
+
+            </div><!-- /.col -->
+            <!-- /.col -->
+
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <hr style="color:black;" />
+</div>
+
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+
+        <table class="table table-striped p-1 text-center" id="table1">
+            <thead>
+                <tr class="bg-gradient-dark text-center">
+                    <th>
+                        Farmer Name
+                    </th>
+                    <th>
+                        Product
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Image
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price) (<i class="fa-solid fa-indian-rupee-sign fa-xs"></i>)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CatID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UnitID) Size
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                @foreach (var item in Model)
+                {
+                    <tr class="align-items-center">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Users.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductDescription)
+                        </td>
+                        <td>
+                            <img src="../@item.ProductPicture" width="100px" />
+                        </td>
+                        <td>
+                            
+                                @Html.DisplayFor(modelItem => item.Price).00/- 
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Categories.CatName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Units.UnitType) kg
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script src="~/scripts/jquery-3.6.1.min.js"></script>
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section adminscript
+{
+
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#table1").dataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+       
+    </script>
+
+
+}

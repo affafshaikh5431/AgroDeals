@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "RejectedOrders";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminMenu.cshtml";
+}
+
+
+
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black">Rejected Orders </h1>
+
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+    <hr style="color:black;" />
+</div>
+
+<div id="divGetRejectedOrders">
+    Loading...
+</div>
+
+
+
+
+@section adminscript
+        {
+    <script>
+            $(document).ready(function () {
+                GetRejectedOrders();
+
+            })
+        function GetRejectedOrders() {
+                $.ajax({
+                    url: "@Url.Action("GetRejectedOrders", "ManageOrders")",
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#divGetRejectedOrders").html(data);
+                        if (data == "") {
+                            $("#divGetRejectedOrders").html("<h3>There are no any pending orders</h3>");
+                        }
+                    },
+                    error: function (response) {
+
+                        console.log(response.responseText);
+                    },
+                    failure: function (response) {
+                        console.log(response.responseText);
+                    }
+                })
+                }
+
+    </script>
+}
+
+

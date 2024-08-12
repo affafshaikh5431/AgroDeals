@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ProjectAgroDeals.ViewModel.FavProduct>
+
+@{
+    ViewBag.Title = "favouriteProduct";
+    Layout = "~/Areas/Farmer/Views/Shared/_FarmerMenus.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black"><i class="fa-solid fa-chart-line"></i> Analysis </h1>
+
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <hr style="color:black;" />
+</div>
+
+
+<div class="container">
+    <table class="table table-bordereless  text-center mx-auto w-75 p-2">
+        <tr class="bg-gradient-navy">
+           
+            
+            <th>
+                Product
+            </th>
+            
+            <th > 
+                The Product Has Been Sold
+            </th>
+           
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.RepetitionCount) Times
+                </td>
+               
+            </tr>
+        }
+
+    </table>
+</div>
+

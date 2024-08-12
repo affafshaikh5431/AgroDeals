@@ -1,0 +1,104 @@
+﻿@model ProjectAgroDeals.Models.Units
+
+@{
+    ViewBag.Title = "Edit UnitsType";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminMenu.cshtml";
+}
+
+
+
+<style>
+
+    .form-control {
+        background-color: white !important; 
+        color: black !important;
+    }
+
+    .form-select {
+        background-color: white !important;
+        color: black !important;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+        var msg = '@TempData["Msg"]';
+
+        if (msg != null && msg.includes('Updated'))
+        {
+            Swal.fire({ title: "Unit Size Updated Successfully!", text: "Updated !",icon: "success",background:"white" });
+        }
+        else if (msg != null && msg.includes("exists"))
+        {
+            Swal.fire({ title: "Not Again!", text: "You have already added product with this name!", icon: "warning" });
+        }
+        else if (msg != null && msg.includes("Failed"))
+        {
+            Swal.fire({ title: "Product Updation Failed!", text: "Failed to update the Product", icon: "error" })
+        }
+
+
+        });
+</script>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black">Edit UnitType </h1>
+
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+    <hr style="color:black;" />
+</div>
+<section class="content">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card card-warning bg-white">
+                <div class="card-header">
+                    <h3 class="card-title fw-bold display-3">Edit UnitType</h3>
+
+
+                </div>
+                <div class="card-body">
+
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                           
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.UnitID)
+
+                            <div class="form-group">
+                                <label>Unit Size (Bag) (kg)</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UnitType, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UnitType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10 float-right-start">
+                                    @Html.ActionLink("Back to List", "Index", null,new {@class="btn btn-dark"})
+                                    <input type="submit" value="Save" class="btn btn-warning" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!--div>
+                        @Html.ActionLink("Back to List", "Index")
+                    </div-->
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>

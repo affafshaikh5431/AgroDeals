@@ -1,0 +1,155 @@
+﻿@model ProjectAgroDeals.Models.Users
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_BeforeLoginNavBar.cshtml";
+}
+
+<style>
+
+</style>
+<br />
+<!--body class="hold-transition register-page" style="background: linear-gradient(179.1deg, rgb(43, 170, 96) 2.3%, rgb(129, 204, 104) 98.3%);"-->
+<body style="background-image: url('@Url.Content("~/images/regBg.jpg")');
+  background-size: cover ;
+  background-position: center center;
+  background-repeat: no-repeat;
+  "class="hold-transition register-page">
+
+    <div class="register-box elevation-5 rounded-3 border border-5 border-dark">
+        <div class="card card-outline card-white m-auto">
+            <div class="card-body card">
+                <p class="text-center h4"> Sign Up for AgroDeals</p>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa-solid fa-circle-chevron-down"></span>
+                            </div>
+                        </div>
+                        @Html.DropDownListFor(model => model.RoleID, new SelectList(ViewBag.Des, "RoleID", "RoleName"), new { @class = "form-select" })
+                        <div class="col-12">
+                            @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Full Name" } })
+                        <div class="col-12">
+                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email Address" } })
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa-solid fa-mobile-screen"></span>
+                            </div>
+                        </div>
+                        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mobile No" } })
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa-solid fa-location-dot"></span>
+                            </div>
+                        </div>
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address" } })
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" } })
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <input type="password" id="retypePassword" class="form-control" placeholder="Retype password">
+                    </div>
+                    <p id="passError" style="color:red"></p>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-sm  btn-primary btn-block">Register</button>
+                        </div>
+                    </div>
+                }
+                <a href="@Url.Action("Login","Account")" class="mt-2 text-center"><u>I already have an Account.</u></a>
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+</body>
+
+@section code
+{
+    <script>
+        $(document).ready(function ()
+        {
+
+            $('#retypePassword').on('input', function () {
+                var password = $('#Password').val();
+                var retypePassword = $(this).val();
+
+                // Enable or disable the submit button based on password match
+                if (password === retypePassword) {
+                    $('button[type="submit"]').prop('disabled', false);
+                    $('#passError').text("");
+                } else {
+                    $('button[type="submit"]').prop('disabled', true);
+                    $('#passError').text("Password & Confirm Password did not match!");
+                }
+            });
+           
+
+
+            var msg = '@TempData["Msg"]';
+            if (msg != null && msg.includes('already')) {
+                Swal.fire('Registration Failed!!', '<p class=fw-bold>' + msg + '</p>', 'error');
+            }
+            else if (msg != null && msg.includes('success'))
+            {
+                Swal.fire({title: "Done !!", text: "<p class=fw-bold>" + msg + "</p>", icon: "success"});
+            }
+        })
+    </script>    
+}
+

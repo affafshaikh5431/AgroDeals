@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ProjectAgroDeals.Models.Cart>
+
+@{
+    ViewBag.Title = "Reject Order";
+    Layout = "~/Areas/User/Views/Shared/_UserNavBar.cshtml";
+
+    // Group the Model by date
+    var groupedModel = Model.GroupBy(item => item.Dated.Date);
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-danger">Reject Orders</h1>
+            </div>
+        </div>
+        <hr style="color:black;" />
+    </div>
+</div>
+<div class="container">
+    @if (!groupedModel.Any())
+    {
+        <p class="text-center fw-bolder display-5">No Records Found !!</p>
+    }
+    else
+    {
+        <table class="table table-borderless">
+            <tr class="bg-danger text-dark">
+                <th colspan="3">@Html.DisplayNameFor(model => model.Dated)</th>
+                <th>Product Name</th>
+                <th>User Name</th>
+                <th>Category Name</th>
+                <th>Bag Size</th>
+                <th>@Html.DisplayNameFor(model => model.Qty)</th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+            </tr>
+
+            @foreach (var group in groupedModel)
+            {
+                <tr>
+                    <td colspan="2" class="text-left fw-bolder">
+                        @group.Key.ToString("dd-MMM-yyyy")
+                    </td>
+                </tr>
+
+                foreach (var item in group)
+                {
+                    <tr class="border-2">
+                        <td colspan="3"></td>
+                        <td>@Html.DisplayFor(modelItem => item.Products.ProductName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Users.FullName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Categories.CatName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Products.Units.UnitType) Kg</td>
+                        <td>@Html.DisplayFor(modelItem => item.Qty) Bag</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price).00 Rs/-</td>
+                        <td class="text-danger fw-bolder">@Html.DisplayFor(modelItem => item.Status)</td>
+                    </tr>
+                }
+            }
+        </table>
+    }
+</div>

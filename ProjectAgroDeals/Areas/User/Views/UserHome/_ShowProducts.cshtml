@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ProjectAgroDeals.ViewModel.ProductViewModel>
+
+
+<!-- Main content -->
+<!-- Default box -->
+
+
+<div class="container card card-solid elevation-1">
+
+    <div class="card-body pb-0">
+        <div class="row ">
+            @foreach (var itm in Model)
+            {
+                <div class="col-12 col-sm-6 col-md-3 d-flex align-items-stretch flex-column">
+                    <div class="card bg-light d-flex flex-fill elevation-1">
+                        <div class="card-body pt-2 mt-1">
+                            <div class="row">
+                                <div class="col-6 mx-auto ">
+                                    <img src="../@itm.ProductPicture" alt="user-avatar" class="img-circle img-fluid img-thumbnail">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="h6 text-center mt-2"><b>@itm.ProductName</b></h2>
+                                    <ul class="ml-3 mb-0 fa-ul text-muted">
+                                        <li class="text-sm"><span class="fa-li"><i class="fa-solid fa-circle-info"></i></span><b> Description: </b>@itm.ProductDescription</li>
+                                        <li class="text-sm"><span class="fa-li"><i class="fa-solid fa-scale-balanced"></i></span><b> Size: @itm.UnitType Kg</b></li>
+                                        <li class="text-sm"><span class="fa-li"><i class="fa-solid fa-indian-rupee-sign"></i></span><b> Total Price: @(Convert.ToDouble(itm.Price) * Convert.ToDouble(itm.UnitType)).00/-Rs</b></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="text-center">
+                                <a class="btn btn-sm btn-primary addToCartBtn" href="@Url.Action("ProductDetails","Cart")?id=@itm.ProductID">
+                                    <i class="fa-solid fa-cart-shopping"></i> Add To Cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

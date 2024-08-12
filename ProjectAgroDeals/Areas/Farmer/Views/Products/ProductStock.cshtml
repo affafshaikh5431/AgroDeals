@@ -1,0 +1,160 @@
+﻿@model ProjectAgroDeals.ViewModel.ProductStockModel
+
+@{
+    ViewBag.Title = "Add Product Stock";
+    Layout = "~/Areas/Farmer/Views/Shared/_FarmerMenus.cshtml";
+}
+
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black"><i class="fa-solid fa-box-open"></i> Add Stock </h1>
+
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <hr style="color:black;" />
+</div>
+
+
+
+<section class="content">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card card-primary bg-white">
+                <div class="card-header">
+                    <h3 class="card-title display-3">Add Stock Quantity Details</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+
+
+
+                    <div class="form-horizontal">
+
+                        <input type="hidden" id="hdfProductID" value="@Model.ProductID" />
+                        <input type="hidden" id="hdfProductName" value="@Model.ProductName" />
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <h6> Product Name</h6>
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <span>Current Stock :<strong>@Model.CurrentStock Bags</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <span>Enter Quantity</span>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="number" class="form-control" id="StockQty" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="button" value="Add Stock" class="btn btn-success" id="btnAddStock" />
+                                @Html.ActionLink("Back to List", "ViewProducts", null, new { @class = "btn btn-dark" })
+                            </div>
+                        </div>
+                    </div>
+                     
+                    }
+
+                    
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+
+
+@section farmerscript
+{
+    <script>
+    $(document).ready(function () {
+        $("#btnAddStock").click(function () {
+
+            AddStocks();
+
+        });
+    });
+ function SetButtonStatus(isBusy) {
+            if (isBusy == true) {
+                $("#btnAddStock").addClass("disabled");
+                $("#btnAddStock").val("Processing");
+            } else {
+                $("#btnAddStock").removeClass("disabled");
+                $("#btnAddStock").val("Add Stock");
+            }
+        }
+        function AddStocks() {
+            SetButtonStatus(true);
+            var countBag = $("#StockQty").val();
+            var pname = $("#hdfProductName").val();
+            stocks = {};
+            stocks.StockID = 0;
+            stocks.ProductID = $("#hdfProductID").val();
+            stocks.InQty = $("#StockQty").val();
+            stocks.OutQty = 0;
+            stocks.Total = stocks.InQty - stocks.OutQty;
+            $.ajax({
+                url: "@Url.Action("AddStock", "Products")",
+                type: "POST",
+                dataType: "json",
+                data: { mstocks: stocks, id: $("#hdfProductID").val()},
+                success: function (data) {
+                    SetButtonStatus(false);
+                    if (data.includes("success")) {
+                         Swal.fire({
+                            title: pname+" Stock Updated",
+                            text: countBag+" Bag was added to the Stock",
+                            icon: "success"
+                        }).then((result) => {
+                            if (result.isConfirmed)
+                              {
+                                window.location.href = "@Url.Action("ViewProducts", "Products")";
+                                }
+                            });
+                    }
+                },
+                error: function (response) {
+                    SetButtonStatus(false);
+                    console.log(response.responseText);
+                },
+                failure: function (response) {
+                    SetButtonStatus(false);
+                    console.log(response.responseText);
+                }
+            })
+        }
+    </script>
+}

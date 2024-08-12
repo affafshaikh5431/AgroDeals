@@ -1,0 +1,14 @@
+﻿@model IEnumerable<ProjectAgroDeals.Models.Message>
+
+
+@foreach (var item in Model)
+{
+    
+    <div class="media-body mt-3">
+        
+        <p class="text-sm"><i class="fa-solid fa-message"></i>&nbsp; @item.MessageBody</p>
+        <p class="text-sm text-muted"><i class="fa-solid fa-calendar-days"></i>&nbsp; @item.Dated.ToString("yyyy-MMM-dd")</p>
+    </div>
+    <div class="dropdown-divider"></div>
+}
+

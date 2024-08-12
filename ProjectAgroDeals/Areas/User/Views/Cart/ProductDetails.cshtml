@@ -1,0 +1,165 @@
+﻿@model ProjectAgroDeals.ViewModel.ProductViewModel
+
+@{
+    ViewBag.Title = "ProductDetails";
+    Layout = "~/Areas/User/Views/Shared/_UserNavBar.cshtml";
+}
+
+<style>
+    table tr {
+        font-size: 17pt;
+    }
+</style>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        @*<div class="container-fluid">
+            <div class="row mb-2">
+                <div class=" col-md-3 ">
+                    <h1 class="text-center"><i class="fa-solid fa-cart-plus"></i> Add To Cart</h1>
+                </div>
+            </div>
+        </div>*@
+    </section>
+
+
+    <div class="container  justify-content-center align-items-center">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="h3">@Model.ProductName</h3>
+                    <input type="hidden" id="hdfProductID" value="@Model.ProductID" />
+                    <input type="hidden" id="hdfCatID" value="@Model.CatID" />
+                    <input type="hidden" id="hdfPrice" value="@Model.Price" />
+                </div>
+
+                <div class="card-body justify-content-center align-items-center">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-4">
+
+                            <img src="../@Model.ProductPicture" class="img-circle img-fluid border border-1 bg-gradient-white elevation-1" style="width:230px" alt="Product" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <table>
+
+                                <tr class="form-group mb-4">
+                                    <td>Category</td><td class="text-center"></td>
+                                    <td class="text-center"> <span class="text-dark float-left">@Model.CatName</span></td>
+                                </tr>
+
+                                <tr class="form-group mt-auto" style="width:25px;">
+                                    <td>Price</td><td class="text-center"></td>
+                                    <td class="text-center"> <span class=" text-dark float-left "><i class="fa-solid fa-indian-rupee-sign"></i>  @Model.Price.ToString("#,###.00")/-</span></td>
+                                </tr>
+
+                                <tr class="form-group mb-5">
+                                    <td>Quantity</td><td class="text-center"></td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <button class="btn btn-danger" type="button" onclick="decrement()">
+                                                <i class="fa-solid fa-minus fa-xs"></i>
+                                            </button>
+                                            <input type="text" id="Qty" class="form-control text-center text-dark fw-bold" style="width: 30px;" value="1" readonly>
+                                            <button class="btn btn-success" type="button" onclick="increment()">
+                                                <i class="fa-solid fa-plus fa-xs"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+
+                               </tr>
+                                <tr class="form-group" mb-3><td colspan="2">&nbsp;</td></tr>
+
+
+
+                                <tr class="form-group mb-5">
+                                    <td class="text-center">
+                                        <button id="btnAdd" class="btn  btn-primary addToCartBtn p-2">
+                                            <i class="fa-solid fa-cart-plus"></i> Add To Cart
+                                        </button>
+                                    </td>
+                                </tr>
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section userscript
+{
+
+    <script>
+
+        function increment() {
+            var qtyInput = document.getElementById('Qty');
+            var currentQty = parseInt(qtyInput.value);
+
+            if (currentQty < 5) {
+                qtyInput.value = currentQty + 1;
+            }
+        }
+
+        function decrement() {
+            var qtyInput = document.getElementById('Qty');
+            var currentQty = parseInt(qtyInput.value);
+
+            if (currentQty > 1) {
+                qtyInput.value = currentQty - 1;
+            }
+        }
+        $(document).ready(function () {
+            $("#btnAdd").click(function () {
+                AddToCart();
+            })
+        })
+        function SetButtonStatus(isBusy) {
+            if (isBusy == true) {
+                $("#btnAdd").addClass("disabled");
+                $("#btnAdd").val("Processing");
+            } else {
+                $("#btnAdd").removeClass("disabled");
+                $("#btnAdd").val("Add To Cart");
+            }
+        }
+        function AddToCart() {
+            SetButtonStatus(true);
+            cart = {};
+            cart.CartID = 0;
+            cart.CatID = $("#hdfCatID").val();
+            cart.ProductID = $("#hdfProductID").val();
+            cart.Qty = $("#Qty").val();
+            cart.Price = $("#hdfPrice").val();
+            cart.Dated = new Date();
+            cart.UserID = 0;
+            $.ajax({
+                url: "@Url.Action("AddToCart", "Cart")",
+                type: "POST",
+                dataType: "json",
+                data: { mcart: cart },
+                success: function (data) {
+                    SetButtonStatus(false);
+                    if (data.includes("success")) {
+                        //show swal/toastr
+                         setTimeout(function () {
+                        window.location.href = "@Url.Action("Index", "UserHome")";
+                         }, 2000);
+                    }
+                },
+                error: function (response) {
+                    SetButtonStatus(false);
+                    console.log(response.responseText);
+                },
+                failure: function (response) {
+                    SetButtonStatus(false);
+                    console.log(response.responseText);
+                }
+            })
+        }
+    </script>
+
+}

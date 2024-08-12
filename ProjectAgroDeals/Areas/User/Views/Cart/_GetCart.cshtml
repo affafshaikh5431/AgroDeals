@@ -1,0 +1,108 @@
+﻿@model IEnumerable<ProjectAgroDeals.Models.Cart>
+
+@{
+    int Qty = 0;
+    double Amount = 0.0;
+}
+@if (Model.Any(x => x.Status==null))
+{
+    <div class="row">
+        <table class="table table-bordered table-stripped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CatID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Qty)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dated)
+                </th>
+
+                <th>Remove Item</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Categories.CatName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Products.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Qty)
+                        @{ Qty += item.Qty;}
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                        @{ Amount += item.Price;}
+                    </td>
+                    <td>
+                        @item.Dated.ToString("dd-MMM-yyyy")
+                    </td>
+
+                    <td><button class="btn btn-sm btn-danger"><i class="far fa-trash-alt"></i>  Remove</button></td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div class="form-group mt-3">
+        <h5>Total Amount:<strong>@Amount.ToString("#,###.00")</strong></h5>
+    </div>
+    <div class="form-group mt-3">
+        <button class="btn btn-sm btn-dark"><a href="@Url.Action("Index","UserHome")" class="text-white"><i class="fa-regular fa-circle-left"></i>&nbsp;Back To Buy Products</a></button>
+        <button id="btnConfirm" class="btn btn-sm btn-success">Confirm Order&nbsp; <i class="fa-regular fa-circle-check"></i></button>
+
+    </div>
+}
+else
+{
+    <div class="container text-center d-flex flex-column align-items-center justify-content-center">
+        <img src="~/images/NoItemInCart.jpg" width="280px" class="img-fluid" />
+        <h5 class="display-6 text-danger">There is no any item in the cart</h5>
+        <br />
+        <button class="btn btn-sm btn-dark"><a href="@Url.Action("Index","UserHome")" class="text-white"><i class="fa-regular fa-circle-left"></i>&nbsp;Back To Buy Products</a></button>
+    </div>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        $("#btnConfirm").click(function () {
+            ConfirmOrder();
+        })
+    })
+    function ConfirmOrder() {
+        $.ajax({
+            url: "@Url.Action("ConfirmOrder", "Cart")",
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+
+                if (data.includes("success")) {
+                    //show swal/toastr
+                    setTimeout(function () {
+                        window.location.href = "@Url.Action("Index", "UserHome")";
+                    }, 2000);
+                }
+            },
+            error: function (response) {
+                console.log(response.responseText);
+            },
+            failure: function (response) {
+                console.log(response.responseText);
+            }
+        })
+    }
+</script>

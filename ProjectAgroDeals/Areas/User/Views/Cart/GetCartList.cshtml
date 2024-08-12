@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "GetCartList";
+    Layout = "~/Areas/User/Views/Shared/_UserNavBar.cshtml";
+}
+
+
+<div class="container">
+
+    <h2 class="display-5 mt-3">Cart</h2>
+    <hr />
+    <div id="divCartList">
+
+    </div>
+
+</div>
+@section userscript{
+    <script>
+        $(document).ready(function () {
+            LoadCartList();
+        })
+        function LoadCartList() {
+            $("#divCartList").load("@Url.Action("GetCart", "Cart")", {})
+        }
+    </script>
+}
+
+

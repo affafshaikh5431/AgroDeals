@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ProjectAgroDeals.Models.Stocks>
+
+@{
+    ViewBag.Title = "StockDetails";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminMenu.cshtml";
+
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black">Stock Details </h1>
+
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+        <hr style="color:black;" />
+    </div><!-- /.container-fluid -->
+</div>
+
+
+<div class="container">
+    <table class="table table-borderless w-75 mx-auto text-left ">
+        <tr class="fw-bolder bg-dark"> 
+            
+            <th>Farmer's Name</th>
+            <th>
+                Product Name
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Total) Bags
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Products.Users.FullName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Products.ProductName)
+        </td>
+
+        @if (item.Total > 3)
+        {
+            <td class="text-success fw-bolder">  @Html.DisplayFor(modelItem => item.Total) Bags Left </td>
+        }
+        else if (item.Total < 3 && item.Total >= 1)
+        {
+            <td class="text-warning fw-bolder">  @Html.DisplayFor(modelItem => item.Total) Bags Left </td>
+        }
+
+        else if (item.Total == 0)
+        {
+            <td class="text-danger blink fw-bolder">
+                @Html.DisplayFor(modelItem => item.Total) Bags Left
+            </td>
+        }
+    </tr>
+            
+        }
+    </table>
+</div>
+
+
+<script>
+    // JavaScript/jQuery code to toggle the visibility of blinking text
+    $(document).ready(function() {
+        setInterval(function() {
+            $('.blink').toggleClass('invisible');
+        }, 500); // Adjust the interval (in milliseconds) for the blinking speed
+    });
+</script>
+
+<style>
+    /* Define blinking effect */
+    .blink {
+        display: inline-block;
+    }
+
+    .invisible {
+        visibility: hidden;
+    }
+</style>

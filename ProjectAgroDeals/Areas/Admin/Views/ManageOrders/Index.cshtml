@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "View Orders";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminMenu.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black">Pending Orders </h1>
+
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+        <hr style="color:black;" />
+    </div><!-- /.container-fluid -->
+</div>
+
+                <div id="divOrders">
+                    Loading...
+                </div>
+
+
+    
+
+    @section adminscript{
+        <script>
+        $(document).ready(function () {
+            AddToCart();
+        })
+        function AddToCart() {
+            $.ajax({
+                url: "@Url.Action("GetPendingOrders", "ManageOrders")",
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    $("#divOrders").html(data);
+                    if (data == "") {
+                        $("#divOrders").html("<h3>There are no any pending orders</h3>");
+                    }
+                },
+                error: function (response) {
+                    SetButtonStatus(false);
+                    console.log(response.responseText);
+                },
+                failure: function (response) {
+                    SetButtonStatus(false);
+                    console.log(response.responseText);
+                }
+            })
+        }
+        </script>
+    }

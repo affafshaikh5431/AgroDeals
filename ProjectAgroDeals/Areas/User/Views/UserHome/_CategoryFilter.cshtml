@@ -1,0 +1,47 @@
+﻿
+<div class="row">
+    <h5 class="h5">Category</h5>
+</div>
+<div class="spinner-border" role="status" id="loadingSpinner">
+    <span class="visually-hidden">Loading...</span>
+</div>
+<div id="divCat"></div>
+
+<script>
+    $(document).ready(function () {
+        LoadCats();
+    })
+    function LoadCats() {
+        $.ajax({
+            url: "@Url.Action("LoadCategory","UserHome")",
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                var str = "";
+                str += "<div><label class='form-check-label'></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ";
+                for (var i = 0; i < data.length; i++) {
+
+                    str += "&nbsp;&nbsp;<input  type='radio' class='form-check-input' name='cat'  value='" + data[i].CatID + "'/>&nbsp;";
+                    str += "<label class='form-check-label'>" + data[i].CatName +"</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+
+                }
+                str += "</div>&nbsp;";
+                $("#divCat").html(str);
+                $("#loadingSpinner").hide();
+            },
+            error: function (response) {
+                console.log(response.responseText);
+            },
+            failue: function (response) {
+                console.log(response.responseText);
+            }
+        })
+    }
+</script>
+
+<style>
+    .cat-item {
+        display: inline-block;
+        margin-right: 10px;
+    }
+</style>

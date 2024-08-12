@@ -1,0 +1,82 @@
+﻿@model IEnumerable<ProjectAgroDeals.Models.Units>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminMenu.cshtml";
+}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:black">Unit </h1>
+
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+    <hr style="color:black;" />
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content bg-white">
+    <div class="container-fluid">
+
+        <div class="card elevation-1 bg-white">
+            <div class="card-body">
+
+
+                <div>
+                    <a href="@Url.Action("Create","Unit")" class="btn btn-sm btn-success" style="color:white;">
+                        <i class="fa-solid fa-circle-plus"></i>&nbsp; Add Type
+                    </a>
+                </div>
+
+                <table class="table bg-white" id="table1">
+                    <thead>
+                        <tr>
+                            <th>
+                                Unit Size
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitType)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit","Unit",new { id = item.UnitID })" class="btn btn-sm btn-warning" style="color:white;">
+                                        <i class="fa-solid fa-pen-to-square"></i>&nbsp; Edit
+                                    </a>
+                                   
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/scripts/jquery-3.6.1.min.js"></script>
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section adminscript
+{
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            //$("#table1").dataTable();
+        });
+
+    </script>
+
+}
